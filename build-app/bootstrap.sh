@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Install go
+
+# Install git
 sudo yum install git -y
 
 # Install golang
@@ -28,6 +29,8 @@ npm --version
 # Vue version
 vue --version
 
+# -------------- End isntalations verify --------------
+
 # Clone repo
 git clone https://github.com/jdmendozaa/vuego-demoapp 
 
@@ -39,10 +42,18 @@ go build -o /shared/server
 
 # Go to the frontend project
 cd ../spa/
+
+# Put correct enviroment variable in frontend project
+sudo echo 'VUE_APP_API_ENDPOINT="http://10.0.0.8:4001/api"' >> .env.production.local
+
 # Build node modules
 sudo npm i
 
 # Create the build of the project
 sudo npm run build
 
-cd dist ls
+# Compress files
+tar -zcvf frontend.tar.gz ./dist
+
+# Move file to the frontend
+mv frontend.tar.gz /shared
